@@ -2,12 +2,12 @@ class DSU
 {
     private:
     vector<int> parent,rank,size;
-    
+    int numSets;
     public:
    
     DSU(int n)
     {
-         
+        numSets=n;
         for(int i=0;i<=n;i++)
         {
             rank.push_back(0);
@@ -15,7 +15,22 @@ class DSU
             size.push_back(1);
         }
     }
-
+    
+    int numDisjointSets() 
+    {
+         return numSets;
+    }
+    
+    int setSize(int u)
+    {
+       return size[findpar(u)];
+    }
+    
+    bool isSameSet(int u,int v)
+    {
+        return findpar(u)==findpar(v);
+    }
+    
     int findpar(int x) // find by path compression
     {
         if(parent[x]==x)
@@ -31,6 +46,7 @@ class DSU
          {
              return;
          }
+         numSets--;
          if(size[x_rep]>size[y_rep])
          {
              parent[y_rep]=x_rep;
@@ -50,6 +66,7 @@ class DSU
         {
             return;
         }
+        numSets--;
         if(rank[x_rep]>rank[y_rep]){
          parent[y_rep]=x_rep;
         }
